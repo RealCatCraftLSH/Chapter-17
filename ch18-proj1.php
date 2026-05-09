@@ -1,13 +1,25 @@
+<?php
+    include 'config.php'
+
+    $apiUrl = "https://api.nasa.gov/planetary/apod?api_key=" . $nasaAPIKey;
+    $apiResponse = @file_get_contents($apiUrl);
+    $nasaData = $apiRespone ? json_decode($apiResponse, true) : null;
+?>
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="UTF-8">
         <title>
-            <?php echo isset($artwork['title'] . " - Online Art Gallery" : "Online Art Gallery"; ?>
+            <?php
+                echo isset($artwork['title'])
+                    ? $artwork['title'] . " - Online Art Gallery"
+                    : "Online Art Gallery - Nasa Feature";
+            ?>
         </title>
         <meta name="description" content="<?php
             echo isset($artwork['title'])
-                ? 'Learn About the Artwork ' . $artwork['title'] . ' by ' . $artwirj['artist'] . '.' 
+                ? 'Learn About the Artwork ' . $artwork['title'] . ' by ' . $artwork['artist'] . '.' 
                 : 'Browse artwork, artists, and collections in our online gallery.'
             ?>">
         <meta name="keywords" content="<?php
@@ -32,19 +44,26 @@
 
         <main>
             <article>
-                <h2>
-                    <?php echo isset($artwork['title']) ? $artwork['title'] : "Featured Artwork"; ?>
-                </h2>
+                <section>
+                    <h2>
+                        <?php echo isset($artwork['title']) ? $artwork['title'] : "NASA Photo of the Day"; ?>
+                    </h2>
 
-                <?php if(isset($artwork)) : ?>
-                    <img
-                        src="images/<?php echo $artwork['image']; ?>"
-                        alt="Artwork titled <?php echo $artwork['title']; ?> by <?php echo $artwork['artist']; ?>"
-                        title="<?php echo $artwork['title']; ?> - <?php echo $artwork['artist']; ?>"
-                        width="400"
-                    >
-                <?php endif; ?>
+                    <?php if($nasaData && isset($nasaData['url'])) : ?>
+                        <img
+                            src="<?php echo $nasaData['url']; ?>    "
+                            alt="<?php echo $nasaData['title']; ?>"
+                            title="<?php echo $nasaData['title']; ?>"
+                            width="400"
+                        >
 
+                        <h3><?php echo $nasaData['title']; ?></h3>
+                        <p><?php echo $nasaData['explanation']; ?></p>
+
+                    <?php else : ?>
+                        <p>Nasa image couldn't be loaded</p>
+                    <?php endif; ?>
+                </section>
                 <section>
                     <h3>About the Artwork</h3>
                     <p>
