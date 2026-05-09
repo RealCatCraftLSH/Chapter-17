@@ -1,10 +1,77 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
-        <title>FE Print Labs</title>
+        <meta charset="UTF-8">
+        <title>
+            <?php echo isset($artwork['title'] . " - Online Art Gallery" : "Online Art Gallery"; ?>
+        </title>
+        <meta name="description" content="<?php
+            echo isset($artwork['title'])
+                ? 'Learn About the Artwork ' . $artwork['title'] . ' by ' . $artwirj['artist'] . '.' 
+                : 'Browse artwork, artists, and collections in our online gallery.'
+            ?>">
+        <meta name="keywords" content="<?php
+            echo isset($artwork['title'])
+                ? $artwork['title'] . ', ' . $artwork['artist'] . [, painting, artwork, gallery'
+                : ;art, painting, artists, gallery';
+            ?>">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
-        <h1>Hello World!</h1>
-        <p>Test</p>
+        <header>
+            <h1>Online Art Gallery</h1>
+
+            <nav>
+                <ul>
+                    <li><a href="/artists/">Browse All Artists</a></li>
+                    <li><a href="/artworks/">View All Artworks</a></li>
+                    <li><a href="/styles/">Explore Art Styles</a></li>
+                    <li><a href="/contact/">Contact the Gallery</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <main>
+            <article>
+                <h2>
+                    <?php echo isset($artwork['title']) ? $artwork['title'] : "Featured Artwork"; ?>
+                </h2>
+
+                <?php if(isset($artwork)) : ?>
+                    <img
+                        src="images/<?php echo $artwork['image']; ?>"
+                        alt="Artwork titled <?php echo $artwork['title']; ?> by <?php echo $artwork['artist']; ?>"
+                        title="<?php echo $artwork['title']; ?> - <?php echo $artwork['artist']; ?>"
+                        width="400"
+                    >
+                <?php endif; ?>
+
+                <section>
+                    <h3>About the Artwork</h3>
+                    <p>
+                        <?php
+                            echo isset($artwork['description'])
+                                ? $artwork['description']
+                                : "This artwork is part of our curated collection featuring notable pieces from various periods and styles"
+                        ?>
+                    </p>
+                </section>
+
+                <section>
+                    <h3>About the Artist</h3>
+                    <p>
+                       <?php
+                            echo isset($artwork['artistBio'])
+                                ? $artwork['artistBio']
+                                : "Learn more about the artists featured in our gallery"
+                        ?> 
+                    </p>
+                </section>
+            </article>
+        </main>
+
+        <footer>
+            <p>&copy: <?php echo date("Y"); ?> Online Art Gallery</p>
+        </footer>
     </body>
 </html>
